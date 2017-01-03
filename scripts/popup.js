@@ -12,7 +12,11 @@ chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
 $("Document").ready(function(){
   //put callback fubntion for vids here so no load time
   $("#next").on("click", function(){
-      chrome.runtime.sendMessage({reqType: "vidOver"});
+      //chrome.runtime.sendMessage({reqType: "vidOver"});
+      $.getJSON('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=vISPbjWqFiU&format=json', function(data){
+        console.log(data.title);
+      });
+
       //ui refresh on the que in the popup
   });
   $("#clearQ").on("click", function(){
@@ -23,18 +27,18 @@ $("Document").ready(function(){
   })
 });
 
-function createHTML(i){
+function createHTML(i, id){
     return "<div class=\"listItem\">"+
-              "<img src=\""+i.thumbnails.default.url+"\" class=\"ytThubnail\">"+
+              "<img src=\"https://img.youtube.com/vi/"+id+"/default.jpg\" class=\"ytThubnail\">"+
               "<div class=\"vidInfo\">"+
                   "<h1>"+i.title+"</h1>"+//video name
-                  "<h2>"+i.channelTitle+"</h2>"+//channel name
+                  "<h2>"+i.author_name+"</h2>"+//channel name
               "</div></div>";
 }
 
 function addHTMLViews(vid){
-  $.getJSON('https://www.googleapis.com/youtube/v3/videos?id='+vid+'&key=AIzaSyDqbRv5gp1ZsVeHpdAqfJdz6tLgu6BXHuw&part=snippet', function(data){
-    $(".lastLine").after(createHTML(data.items[0].snippet));
+  $.getJSON('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v='+vid+'&format=json', function(data){
+    $(".lastLine").after(createHTML(data, vid));
     $(".lastLine").removeClass('lastLine').addClass('lineAccent');
     $("<div class=\"lastLine\"></div>").appendTo("#mainDiv");
   });
