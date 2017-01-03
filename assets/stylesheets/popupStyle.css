@@ -2,17 +2,116 @@ body {
   font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
   font-size: 100%;
   margin: 0;
+  color: #abafb5;
+}
+
+label{
+  vertical-align: middle;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #f44336;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#mainDiv{
+  background-color: #e0e0e0;
+}
+
+.mainText{
+  margin: 0;
 }
 
 .navButtons{
-  border-radius: 8px;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 1px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.logo{
   display: inline-block;
+  vertical-align: middle;
+}
+
+.buttons {
+    background-color: white;
+    color: #abafb5;
+    border: 2px solid #f44336;
+}
+
+.buttons:hover {
+    background-color: #f44336;
+    color: white;
 }
 
 .lineAccent{
-  width: 100%;
-  height: 1px;
-  background: #a1a4a8;
+  display: none;
+}
+
+
+.card {
+    /* Add shadows to create the "card" effect */
+    margin: 5px;
+    background-color: white;
 }
 
 .lastLine{
@@ -21,21 +120,26 @@ body {
 
 .listItem{
   padding: 5px 2px 5px 2px;
+  display: block;
 }
 
 .ytThubnail{
   display: inline-block;
+  vertical-align: top;
 }
 
 .vidInfo{
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
+  max-width: 67%;
+  margin-top: -8px;
+  font-size:x-small;
+  margin-left: 5px;
 }
 
 h1{
   display: block;
   margin: 0;
-  vertical-align:top;
 }
 
 h2{

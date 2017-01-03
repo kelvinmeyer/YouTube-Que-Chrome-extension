@@ -33,6 +33,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   else if(request.reqType === "start"){
     chrome.tabs.create({url: q.peek()});
   }
+  else if(request.reqType === "toYT") {
+    chrome.tabs.create({url: "https://www.youtube.com"});
+  }
 });
 
 function nextVid(){

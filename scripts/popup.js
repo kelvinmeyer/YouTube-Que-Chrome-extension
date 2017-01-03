@@ -4,31 +4,59 @@ var tempq = new que();
 
 chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
   tempq.overloadConstructor(JSON.parse(response));
-  for(i = 0; i<tempq.length; i++){
-      addHTMLViews(tempq.popVidId());
+  if(tempq.length == 0){
+    $(".mainText").text("No videos in the Queue");
+    console.log("do we get here");
+  }
+  else{
+    console.log("or here");
+    for(i = 0; i<tempq.length; i++){
+        addHTMLViews(tempq.popVidId());
+     }
    }
 });
+
+function refreshUi(){
+  //clear away old vids
+  $("#mainDiv").html("<p class=\"mainText\"></P><div class=\"lastLine\"></div>");
+  //refresh queue and set it again
+  chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
+    tempq.overloadConstructor(JSON.parse(response));
+    if(tempq.length == 0){
+      $(".mainText").text("No videos in the Queue");
+      console.log("do we get here");
+    }
+    else{
+      console.log("or here");
+      for(i = 0; i<tempq.length; i++){
+          addHTMLViews(tempq.popVidId());
+       }
+     }
+  });
+}
 
 $("Document").ready(function(){
   //put callback fubntion for vids here so no load time
   $("#next").on("click", function(){
-      //chrome.runtime.sendMessage({reqType: "vidOver"});
-      $.getJSON('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=vISPbjWqFiU&format=json', function(data){
-        console.log(data.title);
-      });
-
-      //ui refresh on the que in the popup
+      chrome.runtime.sendMessage({reqType: "vidOver"});
+      refreshUi();
   });
   $("#clearQ").on("click", function(){
     chrome.runtime.sendMessage({reqType: "clearQ"});
+    refreshUi();
   });
   $("#start").on("click", function(){
-    chrome.runtime.sendMessage({reqType: "start"});
-  })
+    if(tempq.length === 0){
+      chrome.runtime.sendMessage({reqType: "toYT"});
+    }
+    else {
+      chrome.runtime.sendMessage({reqType: "start"});
+    }
+  });
 });
 
 function createHTML(i, id){
-    return "<div class=\"listItem\">"+
+    return "<div class=\"listItem card\">"+
               "<img src=\"https://img.youtube.com/vi/"+id+"/default.jpg\" class=\"ytThubnail\">"+
               "<div class=\"vidInfo\">"+
                   "<h1>"+i.title+"</h1>"+//video name
