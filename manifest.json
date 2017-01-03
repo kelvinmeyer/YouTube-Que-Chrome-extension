@@ -1,0 +1,22 @@
+{
+  "name": "Youtube que",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "youtube video que",
+  "browser_action": {
+    "default_icon" : "icon.png",
+    "default_title": "youtube video que",
+    "default_popup": "popup.html"
+  },"content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "js": ["jquery.min.js", "contentScript.js"]
+    }
+  ],
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
