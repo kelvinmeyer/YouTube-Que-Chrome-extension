@@ -1,85 +1,106 @@
-// moving the stuff
-
+//holding que
 var tempq = new que();
 
-chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
-  tempq.overloadConstructor(JSON.parse(response));
-  if(tempq.length == 0){
-    $(".mainText").text("No videos in the Queue");
-    console.log("do we get here");
-  }
-  else{
-    console.log("or here");
-    for(i = 0; i<tempq.length; i++){
-        addHTMLViews(tempq.popVidId());
-     }
-   }
-});
 
-function refreshUi(){
-  //clear away old vids
-  $("#mainDiv").html("<p class=\"mainText\"></P><div class=\"lastLine\"></div>");
-  //refresh queue and set it again
-  chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
-    tempq.overloadConstructor(JSON.parse(response));
-    if(tempq.length == 0){
-      $(".mainText").text("No videos in the Queue");
-      console.log("do we get here");
-    }
-    else{
-      console.log("or here");
-      for(i = 0; i<tempq.length; i++){
-          addHTMLViews(tempq.popVidId());
-       }
-     }
-  });
-}
+//functions
+//button functions
 
-$("Document").ready(function(){
-  //put callback fubntion for vids here so no load time
-  $("#next").on("click", function(){
-      chrome.runtime.sendMessage({reqType: "vidOver"});
-      refreshUi();
-  });
-  $("#clearQ").on("click", function(){
-    chrome.runtime.sendMessage({reqType: "clearQ"});
-    refreshUi();
-  });
-  $("#start").on("click", function(){
+$("document").ready(function(){
+  $("#start-btn").on("click", function(){
     if(tempq.length === 0){
       chrome.runtime.sendMessage({reqType: "toYT"});
     }
     else {
       chrome.runtime.sendMessage({reqType: "start"});
+      //refreshUi();
     }
   });
+
+  $('#next-btn').on("click", function(){
+    chrome.runtime.sendMessage({reqType: "vidOver"});
+    //refreshUi();
+  });
+
+  $('#clear-que-btn').on("click", function(){
+    chrome.runtime.sendMessage({reqType: "clearQ"});
+    //refreshUi();
+  });
+
 });
 
-function createHTML(i, id){
-    return "<div class=\"listItem card\">"+
-              "<img src=\"https://img.youtube.com/vi/"+id+"/default.jpg\" class=\"ytThubnail\">"+
-              "<div class=\"vidInfo\">"+
-                  "<h1>"+i.title+"</h1>"+//video name
-                  "<h2>"+i.author_name+"</h2>"+//channel name
-              "</div></div>";
+
+//ui functions
+// function refreshUi(){
+//   //clear away old vids
+//   $("#vidQueueDiv").html("");
+//   //refresh queue and set it again
+//   //jest a copy of the inital function
+//   chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
+//     tempq.overloadConstructor(JSON.parse(response));
+//     if(tempq.length == 0){
+//       $("h2").text("No videos in the Queue");
+//       console.log("do we get here");
+//     }
+//     else{
+//       console.log("or here");
+//       for(i = 0; i<tempq.length; i++){
+//           addHTMLViews(tempq.popVidId());
+//        }
+//      }
+//   });
+// }
+
+//html adding to
+function createHTML(i, vid){
+    if(vid.active){
+      return "<div class=\"video active\" style=\"order: "+vid.num+";\">"+
+        "<div class=\"activeTriangle\"><i class=\"material-icons md-18 md-red\">play_arrow</i></div>"+
+        "<img class=\"thumbnail\" src=\"https://i.ytimg.com/vi/"+vid.id+"/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA\">"+
+        "<div class=\"vidInfo\">"+
+          "<h4>"+i.title+"</h4>"+
+          "<h5>"+i.author_name+"</h5>"+
+        "</div>"+
+      "</div>"
+    }
+    else{
+      return "<div class=\"video\" style=\"order: "+vid.num+";\">"+
+        "<div class=\"activeTriangle vid-num\">"+vid.num+".</div>"+
+        "<img class=\"thumbnail\" src=\"https://i.ytimg.com/vi/"+vid.id+"/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA\">"+
+        "<div class=\"vidInfo\">"+
+          "<h4>"+i.title+"</h4>"+
+          "<h5>"+i.author_name+"</h5>"+
+        "</div>"+
+      "</div>"
+  }
 }
-
-function addHTMLViews(vid){
-  $.getJSON('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v='+vid+'&format=json', function(data){
-    $(".lastLine").after(createHTML(data, vid));
-    $(".lastLine").removeClass('lastLine').addClass('lineAccent');
-    $("<div class=\"lastLine\"></div>").appendTo("#mainDiv");
-  });
-}
-
-
 /*
-<div>
-  <img src="http://placehold.it/100x100" style="display: inline-block; ">
-  <div style="display: inline-block; vertical-align:top;">
-    <h1 style="display: block; margin: 0; vertical-align:top;">Video Name</h1>
-    <h2 style="display: block; margin: 0; vertical-align:bottom;">Channel Name</h2>
-    <h3 style="display: block; margin: 0; vertical-align:bottom;">Time</h3>
+<div class="video">
+  <div class="activeTriangle vid-num">2.</div>
+  <img class="thumbnail" src="https://i.ytimg.com/vi/0yW7w8F2TVA/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA">
+  <div class="vidInfo">
+    <h4>vid title</h4>
+    <h5>channel</h5>
   </div>
 </div>
 */
+
+function addHTMLViews(vid){
+  $.getJSON('https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v='+vid.id+'&format=json', function(data){
+      $("#vidQueueDiv").append(createHTML(data, vid));
+  });
+}
+
+chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
+  //fill the local page array
+  tempq.overloadConstructor(JSON.parse(response));
+  //if the array is empty then do a thing
+  if(tempq.length == 0){
+    //$(".mainText").text("No videos in the Queue");
+  }
+  else{
+    //if not then add the vids to the que
+    while(tempq.length>0){
+      $("#vidQueueDiv").append(addHTMLViews(tempq.pop()));
+    }
+   }
+});

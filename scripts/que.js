@@ -12,17 +12,11 @@ function que(){
   }
 
   this.pop = function(){
+    length--;
     var out = this.data[0];
     this.data.shift();
     return out;
   }
-
-  this.popVidId = function(){
-    var out = this.data[0].slice(32);
-    this.data.shift();
-    return out;
-  }
-  //https://www.youtube.com/watch?v= 32 characters
 
   this.nuke = function(){
     this.data = [];

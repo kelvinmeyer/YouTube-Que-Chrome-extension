@@ -1,25 +1,31 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" style="min-width:400px;">
+<html xmlns="http://www.w3.org/1999/xhtml" style="min-width:429px;">
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="assets/stylesheets/popupStyle.css" rel="stylesheet">
+    <script src="scripts/video.js"></script>
+    <script src="scripts/que.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/popup.js"></script>
   </head>
   <body>
-    <div>
-      <img src="assets/icons/icon48.png" class="logo">
-      <button type="button" class="navButtons buttons" id="next">Next</button>
-      <button type="button" class="navButtons buttons" id="start">Start</button>
-      <button type="button" class="navButtons buttons" id="clearQ">Clear Que</button>
+    <div class="headerDiv">
+      <div class="headings">
+        <h1>Your Youtube Queue</h1>
+        <h2>5 videos in your queue</h2>
+      </div>
       <label class="switch">
-        <input type="checkbox" checked>
+        <input type="checkbox">
         <div class="slider round"></div>
       </label>
     </div>
-    <div id="mainDiv">
-      <p class="mainText"></P>
-      <div class="lastLine"></div>
+    <div class="navDiv">
+      <span class="navButton tooltip"><i id="start-btn" class="material-icons md-36 md-light md-inactive">play_arrow</i></span>
+      <span class="navButton"><i id="next-btn" class="material-icons md-36 md-light md-inactive">skip_next</i></span>
+      <span class="navButton"><i id="clear-que-btn" class="material-icons md-36 md-light md-inactive">clear</i></span>
+    </div>
+    <div id="vidQueueDiv">
     </div>
   </body>
-  <script src="scripts/que.js"></script>
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/popup.js"></script>
 </html>
