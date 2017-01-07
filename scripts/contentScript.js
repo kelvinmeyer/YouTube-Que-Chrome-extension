@@ -8,5 +8,3 @@ if (vid) {
     $(".ytp-fullscreen-button").click();
   });
 }
-
-//add page closed event listenr to change vid active status

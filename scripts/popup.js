@@ -1,27 +1,32 @@
 //holding que
 var tempq = new que();
+var power = true;
+chrome.storage.sync.get("power", function(p){
+  console.log(p.power);
+  power = p.power;
+  document.getElementById("checkBox").checked = p.power;
+});
 
-
-//ui functions
-// function refreshUi(){
-//   //clear away old vids
-//   $("#vidQueueDiv").html("");
-//   //refresh queue and set it again
-//   //jest a copy of the inital function
-//   chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
-//     tempq.overloadConstructor(JSON.parse(response));
-//     if(tempq.length == 0){
-//       $("h2").text("No videos in the Queue");
-//       console.log("do we get here");
-//     }
-//     else{
-//       console.log("or here");
-//       for(i = 0; i<tempq.length; i++){
-//           addHTMLViews(tempq.popVidId());
-//        }
-//      }
-//   });
-// }
+function refreshUi(){
+  //clear away old vids
+  $("#vidQueueDiv").html("");
+  //refresh queue and set it again
+  //jest a copy of the inital function
+  chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
+    //fill the local page array
+    tempq.overloadConstructor(JSON.parse(response));
+    //if the array is empty then do a thing
+    if(tempq.length == 0){
+      $("#subHeadingText").text("No videos in the queue");
+    }
+    else{
+      $("#subHeadingText").text(tempq.length+" videos in the queue");
+      for(vid in tempq.data){
+        addHTMLViews(tempq.data[vid]);
+      }
+     }
+  });
+}
 
 //html adding to
 function createHTML(i, vid){
@@ -68,10 +73,10 @@ chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
   tempq.overloadConstructor(JSON.parse(response));
   //if the array is empty then do a thing
   if(tempq.length == 0){
-    //$(".mainText").text("No videos in the Queue");
+    $("#subHeadingText").text("No videos in the queue");
   }
   else{
-    //if not then add the vids to the que
+    $("#subHeadingText").text(tempq.length+" videos in the queue");
     for(vid in tempq.data){
       addHTMLViews(tempq.data[vid]);
     }
@@ -80,23 +85,35 @@ chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
 
 $("document").ready(function(){
   $("#start-btn").on("click", function(){
-    if(tempq.length < 1){
-      chrome.runtime.sendMessage({reqType: "toYT"});
-    }
-    else {
+    if(tempq.length > 0 && power){
       chrome.runtime.sendMessage({reqType: "start"});
-      //refreshUi();
+      refreshUi();
     }
   });
 
   $('#next-btn').on("click", function(){
-    chrome.runtime.sendMessage({reqType: "vidOver"});
-    //refreshUi();
+    if(tempq.length > 0 && power){
+      chrome.runtime.sendMessage({reqType: "vidOver"});
+      refreshUi();
+      }
   });
 
   $('#clear-que-btn').on("click", function(){
-    chrome.runtime.sendMessage({reqType: "clearQ"});
-    //refreshUi();
+  if(power){
+      chrome.runtime.sendMessage({reqType: "clearQ"});
+      refreshUi();
+    }
   });
 
+  //set checkbox to true
+  $('#onofftoggle').on("click", function(){
+    if($("#checkBox")[0].checked){
+      power = true;
+      chrome.runtime.sendMessage({reqType: "on"});
+    }
+    else{
+      power = false;
+      chrome.runtime.sendMessage({reqType: "off"});
+    }
+  });
 });

@@ -5,4 +5,12 @@ function video(u, n, a, t, c){
   this.num = n+1;
   this.active = a;
   this.thumbnail = "https://i.ytimg.com/vi/"+this.id+"/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA";
+
+  this.setActive = function(){
+    if(this.active){
+      this.active = false;
+    }else{
+      this.active = true;
+    }
+  }
 }

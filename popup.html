@@ -13,17 +13,17 @@
     <div class="headerDiv">
       <div class="headings">
         <h1>Your Youtube Queue</h1>
-        <h2>5 videos in your queue</h2>
+        <h2 id="subHeadingText">5 videos in your queue</h2>
       </div>
-      <label class="switch">
-        <input type="checkbox">
+      <label class="switch" id="onofftoggle">
+        <input type="checkbox" id="checkBox">
         <div class="slider round"></div>
       </label>
     </div>
     <div class="navDiv">
-      <span class="navButton"><i id="start-btn" class="material-icons md-36 md-light md-inactive">play_arrow</i></span>
-      <span class="navButton"><i id="next-btn" class="material-icons md-36 md-light md-inactive">skip_next</i></span>
-      <span class="navButton"><i id="clear-que-btn" class="material-icons md-36 md-light md-inactive">clear</i></span>
+      <span title="Start" class="navButton"><i id="start-btn" class="material-icons md-36 md-light md-inactive">play_arrow</i></span>
+      <span title="Skip" class="navButton"><i id="next-btn" class="material-icons md-36 md-light md-inactive">skip_next</i></span>
+      <span title="Clear Queue" class="navButton"><i id="clear-que-btn" class="material-icons md-36 md-light md-inactive">clear</i></span>
     </div>
     <div id="vidQueueDiv">
     </div>
