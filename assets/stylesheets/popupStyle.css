@@ -1,28 +1,7 @@
 body{
   margin: 0;
-
   font-family: Roboto,arial,sans-serif;
   cursor: default;
-  background-color: #1a1a1a;
-}
-
-h1{
-  color: #FFFFFF;
-  margin: 0;
-  font-size: 15px;
-}
-
-h2{
-  color: #B8B8B8;
-  margin: 0;
-  font-size: 11px;
-}
-
-.holdingDiv{
-  border-style: solid;
-  border-width: 5px;
-  border-color: pink;
-  width: 429px;
   background-color: #1a1a1a;
 }
 
@@ -38,6 +17,18 @@ h2{
 .headings{
   display: inline-block;
   width: 90%;
+}
+
+h1{
+  color: #FFFFFF;
+  margin: 0;
+  font-size: 15px;
+}
+
+h2{
+  color: #B8B8B8;
+  margin: 0;
+  font-size: 11px;
 }
 
 /* The switch - the box around the slider */
@@ -79,10 +70,6 @@ input:checked + .slider {
   background-color: #c03636;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #c03636;
-}
-
 input:checked + .slider:before {
   transform: translateX(18px);
 }
@@ -100,11 +87,9 @@ input:checked + .slider:before {
   padding: 7px 5px 8px 0px;
   margin-left: 4px;
   margin-right: 10px;
-
 }
 
 .navButton{
-  color: white;
   height: 40px;
 }
 
@@ -124,37 +109,6 @@ input:checked + .slider:before {
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
 }
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: 150%;
-    left: 50%;
-    margin-left: -60px;
-}
-
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent black transparent;
 
 #vidQueueDiv{
   display: flex;

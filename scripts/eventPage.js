@@ -23,7 +23,6 @@ chrome.tabs.onCreated.addListener(function() {
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
   if(request.reqType === "getQ"){
-    console.log(q);
     sendResponse(JSON.stringify(q));
   }
   else if(request.reqType === "vidOver"){
@@ -33,9 +32,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     q.nuke();
   }
   else if(request.reqType === "start"){
-    var temp = q.peek();
-    temp['active'] = true;
-    q[0] = temp;
     chrome.tabs.create({url: q.peek().url});
   }
   else if(request.reqType === "toYT") {

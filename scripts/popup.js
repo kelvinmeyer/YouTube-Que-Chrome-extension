@@ -2,33 +2,6 @@
 var tempq = new que();
 
 
-//functions
-//button functions
-
-$("document").ready(function(){
-  $("#start-btn").on("click", function(){
-    if(tempq.length === 0){
-      chrome.runtime.sendMessage({reqType: "toYT"});
-    }
-    else {
-      chrome.runtime.sendMessage({reqType: "start"});
-      //refreshUi();
-    }
-  });
-
-  $('#next-btn').on("click", function(){
-    chrome.runtime.sendMessage({reqType: "vidOver"});
-    //refreshUi();
-  });
-
-  $('#clear-que-btn').on("click", function(){
-    chrome.runtime.sendMessage({reqType: "clearQ"});
-    //refreshUi();
-  });
-
-});
-
-
 //ui functions
 // function refreshUi(){
 //   //clear away old vids
@@ -55,7 +28,7 @@ function createHTML(i, vid){
     if(vid.active){
       return "<div class=\"video active\" style=\"order: "+vid.num+";\">"+
         "<div class=\"activeTriangle\"><i class=\"material-icons md-18 md-red\">play_arrow</i></div>"+
-        "<img class=\"thumbnail\" src=\"https://i.ytimg.com/vi/"+vid.id+"/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA\">"+
+        "<img class=\"thumbnail\" src=\""+vid.thumbnail+"\">"+
         "<div class=\"vidInfo\">"+
           "<h4>"+i.title+"</h4>"+
           "<h5>"+i.author_name+"</h5>"+
@@ -65,7 +38,7 @@ function createHTML(i, vid){
     else{
       return "<div class=\"video\" style=\"order: "+vid.num+";\">"+
         "<div class=\"activeTriangle vid-num\">"+vid.num+".</div>"+
-        "<img class=\"thumbnail\" src=\"https://i.ytimg.com/vi/"+vid.id+"/hqdefault.jpg?custom=true&w=120&h=90&jpg444=true&jpgq=90&sp=68&sigh=1aZgAcdjkana70f1uXEkpsMaFIA\">"+
+        "<img class=\"thumbnail\" src=\""+vid.thumbnail+"\">"+
         "<div class=\"vidInfo\">"+
           "<h4>"+i.title+"</h4>"+
           "<h5>"+i.author_name+"</h5>"+
@@ -99,8 +72,31 @@ chrome.runtime.sendMessage({reqType: "getQ"}, function(response){
   }
   else{
     //if not then add the vids to the que
-    while(tempq.length>0){
-      $("#vidQueueDiv").append(addHTMLViews(tempq.pop()));
+    for(vid in tempq.data){
+      addHTMLViews(tempq.data[vid]);
     }
    }
+});
+
+$("document").ready(function(){
+  $("#start-btn").on("click", function(){
+    if(tempq.length < 1){
+      chrome.runtime.sendMessage({reqType: "toYT"});
+    }
+    else {
+      chrome.runtime.sendMessage({reqType: "start"});
+      //refreshUi();
+    }
+  });
+
+  $('#next-btn').on("click", function(){
+    chrome.runtime.sendMessage({reqType: "vidOver"});
+    //refreshUi();
+  });
+
+  $('#clear-que-btn').on("click", function(){
+    chrome.runtime.sendMessage({reqType: "clearQ"});
+    //refreshUi();
+  });
+
 });

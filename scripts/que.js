@@ -12,9 +12,9 @@ function que(){
   }
 
   this.pop = function(){
-    length--;
     var out = this.data[0];
     this.data.shift();
+    this.length--;
     return out;
   }
 
