@@ -1,5 +1,5 @@
 {
-  "name": "Youtube que",
+  "name": "Youtube Queue",
   "version": "0.2.0",
   "manifest_version": 2,
   "description": "youtube video que",
@@ -12,7 +12,7 @@
   },
   "browser_action": {
     "default_icon" : "assets/icons/icon32.png",
-    "default_title": "youtube video que",
+    "default_title": "youtube video queue",
     "default_popup": "popup.html"
   },"content_scripts": [
     {
